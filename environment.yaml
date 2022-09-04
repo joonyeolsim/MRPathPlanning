@@ -1,0 +1,31 @@
+# robot
+robot_num: 5
+robot_radius: 0.8
+
+# map
+map_width: 30
+map_height: 30
+obstacle_list:
+  - !!python/tuple [15, 15, 1]
+  - !!python/tuple [13, 16, 2]
+  - !!python/tuple [13, 18, 2]
+  - !!python/tuple [13, 20, 2]
+  - !!python/tuple [17, 15, 2]
+  - !!python/tuple [19, 15, 2]
+  - !!python/tuple [18, 20, 1]
+
+# RRT
+rrt_rand_area: [0, 30]
+rrt_expand_distance: 3.0
+rrt_path_resolution: 0.5
+rrt_goal_sample_rate: 5
+rrt_max_iter: 500
+rrt_play_area: [0, 30, 0, 30]
+
+# SSSP
+sampling_m: 5
+expand_distance: 3
+threshold_distance: 1
+
+# drawing
+colors: ["g", "c", "m", "y", "limegreen"]
