@@ -154,7 +154,7 @@ class SSSP:
             self.goal_states.append(list(roadmap)[-1])
             self.roadmaps.append(roadmap)
 
-        while True:
+        while self.env.iteration:
             frontier = list()
             explored = list()
 
@@ -234,6 +234,9 @@ class SSSP:
                                             print("Collision Explored!")
 
             self.env.threshold_distance *= 0.5
+            self.env.iteration -= 1
+            print(f"Iteration Count: {self.env.iteration}")
+        return None
 
     def vertex_expand(self, robot, q_state_from):
         for _ in range(self.env.sampling_m):
@@ -404,10 +407,13 @@ if __name__ == '__main__':
     last_snapshot = sssp.search()
 
     end_time = time.time()
-    print(f"All time: {end_time - start_time}")
+    if last_snapshot:
+        print(f"All time: {end_time - start_time}")
 
-    # path 만들기
-    re_state_paths = sssp.reconstruct_paths(last_snapshot)
+        # path 만들기
+        re_state_paths = sssp.reconstruct_paths(last_snapshot)
 
-    # 결과 그리기
-    sssp.draw_result(re_state_paths)
+        # 결과 그리기
+        sssp.draw_result(re_state_paths)
+    else:
+        print("Search Fail...")
