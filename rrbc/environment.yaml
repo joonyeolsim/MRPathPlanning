@@ -1,5 +1,5 @@
 # robot
-robot_num: 5
+robot_num: 10
 robot_radius: 1
 
 # map
@@ -33,7 +33,7 @@ threshold_distance: 1
 step_resolution: 0.5
 
 # drawing
-colors: ["g", "c", "m", "y", "limegreen"]
+colors: ["cyan", "red", "green", "bue", "gold", "violet", "pink", "yellow", "purple", "hotpink"]
 draw_graph: True
 step_num: 5
 pause_time: 0.001
