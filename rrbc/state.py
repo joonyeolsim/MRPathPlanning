@@ -1,4 +1,4 @@
-class SnapShot:
+class State:
     def __init__(self, score, robot_states, parent, paths, timestep):
         self.score = score
         self.robot_states = robot_states

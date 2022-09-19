@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from astar import AStar
 from environment import Environment
 from rrt import RRT
-from snapshot import SnapShot
+from state import State
 
 
 class SSSP:
@@ -158,43 +158,43 @@ class SSSP:
             frontier = list()
             explored = list()
 
-            # 처음 snapshot을 만들고 frontier에 삽입.
+            # 처음 state을 만들고 frontier에 삽입.
             init_states = [start_state for start_state in self.start_states]
             parent = None
             paths, score = self.calculate_score_path(init_states)
             timestep = 1
 
-            heapq.heappush(frontier, SnapShot(score, init_states, parent, paths, timestep))
+            heapq.heappush(frontier, State(score, init_states, parent, paths, timestep))
 
             while frontier:
-                snapshot = heapq.heappop(frontier)
-                explored.append(snapshot.robot_states)
+                state = heapq.heappop(frontier)
+                explored.append(state.robot_states)
 
-                next_score = snapshot.score
-                next_robot_states = snapshot.robot_states[:]
-                next_parent = snapshot
-                next_paths = snapshot.paths
-                next_timestep = snapshot.timestep + 1
+                next_score = state.score
+                next_robot_states = state.robot_states[:]
+                next_parent = state
+                next_paths = state.paths
+                next_timestep = state.timestep + 1
 
                 if self.env.draw_graph:
-                    self.draw_graph(snapshot.robot_states)
+                    self.draw_graph(state.robot_states)
 
-                for robot, robot_state in enumerate(snapshot.robot_states):
+                for robot, robot_state in enumerate(state.robot_states):
                     if robot_state != self.goal_states[robot]:
                         break
                 else:
-                    return snapshot
+                    return state
 
                 for robot, path in enumerate(next_paths):
-                    if len(path) > snapshot.timestep:
-                        next_robot_states[robot] = path[snapshot.timestep]
-                        minus_score = self.get_euclidean_distance(snapshot.robot_states[robot], next_robot_states[robot])
+                    if len(path) > state.timestep:
+                        next_robot_states[robot] = path[state.timestep]
+                        minus_score = self.get_euclidean_distance(state.robot_states[robot], next_robot_states[robot])
                         next_score -= minus_score
 
-                collisions_list = self.collision_check(snapshot.robot_states, next_robot_states)
+                collisions_list = self.collision_check(state.robot_states, next_robot_states)
                 if not collisions_list:
                     if next_robot_states not in explored:
-                        heapq.heappush(frontier, SnapShot(next_score, next_robot_states, next_parent, next_paths, next_timestep))
+                        heapq.heappush(frontier, State(next_score, next_robot_states, next_parent, next_paths, next_timestep))
                     else:
                         print("Explored!")
 
@@ -206,8 +206,8 @@ class SSSP:
                             robot, collision_state = collision
 
                             # 충돌 하기 전 위치
-                            if len(snapshot.paths[robot]) > snapshot.timestep - 1:
-                                last_state = snapshot.paths[robot][snapshot.timestep - 1]
+                            if len(state.paths[robot]) > state.timestep - 1:
+                                last_state = state.paths[robot][state.timestep - 1]
 
                                 # 충돌 하기 전 위치에서 vertex expansion
                                 self.vertex_expand(robot, last_state)
@@ -224,11 +224,11 @@ class SSSP:
                                 copy_next_robot_states = next_robot_states[:]
                                 for _, next_state in next_state_list:
                                     copy_next_robot_states[robot] = next_state
-                                    if not self.collision_check(snapshot.robot_states, copy_next_robot_states):
+                                    if not self.collision_check(state.robot_states, copy_next_robot_states):
                                         if copy_next_robot_states not in explored:
                                             next_paths, next_score = self.calculate_score_path(copy_next_robot_states)
                                             next_timestep = 1
-                                            heapq.heappush(frontier, SnapShot(next_score, copy_next_robot_states, next_parent, next_paths, next_timestep))
+                                            heapq.heappush(frontier, State(next_score, copy_next_robot_states, next_parent, next_paths, next_timestep))
                                             break
                                         else:
                                             print("Collision Explored!")
@@ -272,14 +272,14 @@ class SSSP:
                         positions.append(pos)
         return positions
 
-    def draw_graph(self, snapshotq=None):
+    def draw_graph(self, stateq=None):
         plt.clf()
         # for stopping simulation with the esc key.
         plt.gcf().canvas.mpl_connect(
             'key_release_event',
             lambda event: [exit(0) if event.key == 'escape' else None])
-        if snapshotq is not None:
-            for i, q_state in enumerate(snapshotq):
+        if stateq is not None:
+            for i, q_state in enumerate(stateq):
                 if self.rrt.robot_radius > 0.0:
                     self.rrt.plot_circle(q_state.x, q_state.y, self.rrt.robot_radius, '-r')
                     plt.text(q_state.x - 0.5, q_state.y - 0.5, str(i), color="red", fontsize=12)
@@ -384,15 +384,15 @@ class SSSP:
             plt.grid(True)
             plt.pause(self.env.pause_time)
 
-    def reconstruct_paths(self, snapshot):
-        next_snapshot = copy.deepcopy(snapshot)
+    def reconstruct_paths(self, state):
+        next_state = copy.deepcopy(state)
         state_paths = [[] for _ in range(self.env.robot_num)]
 
-        # snapshot을 거꾸로 올라가면서 path 만들기
-        while next_snapshot:
-            for robot, state in enumerate(next_snapshot.robot_states):
+        # state을 거꾸로 올라가면서 path 만들기
+        while next_state:
+            for robot, state in enumerate(next_state.robot_states):
                 state_paths[robot].append(state)
-            next_snapshot = next_snapshot.parent
+            next_state = next_state.parent
 
         for state_path in state_paths:
             state_path.reverse()
@@ -404,14 +404,14 @@ if __name__ == '__main__':
     sssp = SSSP()
     start_time = time.time()
 
-    last_snapshot = sssp.search()
+    last_state = sssp.search()
 
     end_time = time.time()
-    if last_snapshot:
+    if last_state:
         print(f"All time: {end_time - start_time}")
 
         # path 만들기
-        re_state_paths = sssp.reconstruct_paths(last_snapshot)
+        re_state_paths = sssp.reconstruct_paths(last_state)
 
         # 결과 그리기
         sssp.draw_result(re_state_paths)

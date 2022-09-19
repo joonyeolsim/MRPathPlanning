@@ -18,7 +18,7 @@ class RRT:
     Class for RRT planning
     """
 
-    class State:
+    class Configuration:
         """
         RRT Node
         """
@@ -79,8 +79,8 @@ class RRT:
         self.last_node = None
 
     def set_position(self, start, goal):
-        self.start = self.State(start[0], start[1])
-        self.end = self.State(goal[0], goal[1])
+        self.start = self.Configuration(start[0], start[1])
+        self.end = self.Configuration(goal[0], goal[1])
 
     def planning(self):
         """
@@ -121,7 +121,7 @@ class RRT:
         return None  # cannot find path
 
     def steer(self, from_node, to_node, extend_length=float("inf")):
-        new_node = self.State(from_node.x, from_node.y)
+        new_node = self.Configuration(from_node.x, from_node.y)
         d, theta = self.calc_distance_and_angle(new_node, to_node)
 
         new_node.path_x = [new_node.x]
@@ -154,11 +154,11 @@ class RRT:
 
     def get_random_node(self):
         if random.randint(0, 100) > self.goal_sample_rate:
-            rnd = self.State(
+            rnd = self.Configuration(
                 random.uniform(self.min_rand, self.max_rand),
                 random.uniform(self.min_rand, self.max_rand))
         else:  # goal point sampling
-            rnd = self.State(self.end.x, self.end.y)
+            rnd = self.Configuration(self.end.x, self.end.y)
         return rnd
 
     @staticmethod
