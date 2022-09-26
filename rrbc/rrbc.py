@@ -143,8 +143,8 @@ class RRBC:
 
     def search(self):
         # 랜덤으로 시작과 끝 지점들을 생성
-        start_positions = sssp.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
-        goal_positions = sssp.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
+        start_positions = rrbc.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
+        goal_positions = rrbc.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
 
         # 각 시작 지점과 끝 지점에 대해서 roadmap을 생성함.
         for start_position, goal_position in zip(start_positions, goal_positions):
@@ -401,19 +401,19 @@ class RRBC:
 
 
 if __name__ == '__main__':
-    sssp = RRBC()
+    rrbc = RRBC()
     start_time = time.time()
 
-    last_state = sssp.search()
+    last_state = rrbc.search()
 
     end_time = time.time()
     if last_state:
         print(f"All time: {end_time - start_time}")
 
         # path 만들기
-        re_state_paths = sssp.reconstruct_paths(last_state)
+        re_state_paths = rrbc.reconstruct_paths(last_state)
 
         # 결과 그리기
-        sssp.draw_result(re_state_paths)
+        rrbc.draw_result(re_state_paths)
     else:
         print("Search Fail...")
