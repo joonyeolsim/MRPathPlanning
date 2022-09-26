@@ -121,7 +121,7 @@ class RRBC:
         # 로드맵을 확장하는 기준이 계속 바뀔 수 있다. => 일관적으로 유지해보자 (입실론을 기준으로)
         for state in roadmap:
             distance = self.get_euclidean_distance(state, new_state)
-            if distance <= max_distance * 1.5:
+            if distance <= max_distance * self.env.edge_distance:
                 roadmap[new_state].append((distance, state))
                 roadmap[state].append((distance, new_state))
 
@@ -143,8 +143,8 @@ class RRBC:
 
     def search(self):
         # 랜덤으로 시작과 끝 지점들을 생성
-        start_positions = rrbc.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
-        goal_positions = rrbc.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
+        start_positions = self.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
+        goal_positions = self.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
 
         # 각 시작 지점과 끝 지점에 대해서 roadmap을 생성함.
         for start_position, goal_position in zip(start_positions, goal_positions):
