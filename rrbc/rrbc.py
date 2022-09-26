@@ -13,7 +13,7 @@ from rrt import RRT
 from state import State
 
 
-class SSSP:
+class RRBC:
     def __init__(self):
         self.env = Environment()
         self.a_star = AStar()
@@ -40,8 +40,8 @@ class SSSP:
     @staticmethod
     def line_segment_intersects(p1, p2, p3, p4):
         # 외적으로 방향을 구함.
-        ab = SSSP.ccw(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y) * SSSP.ccw(p1.x, p1.y, p2.x, p2.y, p4.x, p4.y)
-        cd = SSSP.ccw(p3.x, p3.y, p4.x, p4.y, p1.x, p1.y) * SSSP.ccw(p3.x, p3.y, p4.x, p4.y, p2.x, p2.y)
+        ab = RRBC.ccw(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y) * RRBC.ccw(p1.x, p1.y, p2.x, p2.y, p4.x, p4.y)
+        cd = RRBC.ccw(p3.x, p3.y, p4.x, p4.y, p1.x, p1.y) * RRBC.ccw(p3.x, p3.y, p4.x, p4.y, p2.x, p2.y)
 
         return ab < 0 and cd < 0
 
@@ -401,7 +401,7 @@ class SSSP:
 
 
 if __name__ == '__main__':
-    sssp = SSSP()
+    sssp = RRBC()
     start_time = time.time()
 
     last_state = sssp.search()
