@@ -32,6 +32,7 @@ expand_distance: 3
 threshold_distance: 1
 step_resolution: 0.5
 iteration: 100
+edge_distance: 1.5
 
 # drawing
 colors: ["cyan", "red", "green", "blue", "gold", "violet", "pink", "yellow", "purple", "hotpink"]
