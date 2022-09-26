@@ -14,8 +14,8 @@ from state import State
 
 
 class RRBC:
-    def __init__(self):
-        self.env = Environment()
+    def __init__(self, environment_file):
+        self.env = Environment(environment_file)
         self.a_star = AStar()
 
         self.roadmaps = []
@@ -401,7 +401,7 @@ class RRBC:
 
 
 if __name__ == '__main__':
-    rrbc = RRBC()
+    rrbc = RRBC("environment.yaml")
     start_time = time.time()
 
     last_state = rrbc.search()
