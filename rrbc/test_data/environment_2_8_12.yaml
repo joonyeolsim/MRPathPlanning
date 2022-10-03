@@ -1,0 +1,81 @@
+colors:
+- cyan
+- red
+- green
+- blue
+- gold
+- violet
+- pink
+- yellow
+- purple
+- hotpink
+draw_graph: false
+edge_distance: 1.2
+expand_distance: 3
+iteration: 100
+map_height: 30
+map_width: 30
+obstacle_list:
+- !!python/tuple
+  - 15
+  - 15
+  - 1
+- !!python/tuple
+  - 13
+  - 16
+  - 2
+- !!python/tuple
+  - 13
+  - 18
+  - 2
+- !!python/tuple
+  - 13
+  - 20
+  - 2
+- !!python/tuple
+  - 17
+  - 15
+  - 2
+- !!python/tuple
+  - 19
+  - 15
+  - 2
+- !!python/tuple
+  - 5
+  - 5
+  - 2
+- !!python/tuple
+  - 5
+  - 8
+  - 1
+- !!python/tuple
+  - 5
+  - 10
+  - 1
+- !!python/tuple
+  - 8
+  - 5
+  - 1
+- !!python/tuple
+  - 10
+  - 5
+  - 1
+pause_time: 0.001
+robot_num: 2
+robot_radius: 1
+rrt_expand_distance: 3.0
+rrt_goal_sample_rate: 5
+rrt_max_iter: 500
+rrt_path_resolution: 0.5
+rrt_play_area:
+- 0
+- 30
+- 0
+- 30
+rrt_rand_area:
+- 0
+- 30
+sampling_m: 8
+step_num: 5
+step_resolution: 0.5
+threshold_distance: 1

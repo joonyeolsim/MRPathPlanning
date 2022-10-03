@@ -399,6 +399,17 @@ class RRBC:
 
         return state_paths
 
+    def calculate_cost(self, state_paths):
+        costs = [0 for _ in range(self.env.robot_num)]
+
+        # cost 계산
+        for robot, state_path in enumerate(state_paths):
+            for i in range(len(state_path[:-1])):
+                costs[robot] += self.get_euclidean_distance(state_path[i], state_path[i + 1])
+        sum_of_cost = sum(costs)
+        max_cost = max(costs)
+        return sum_of_cost, max_cost
+
 
 if __name__ == '__main__':
     rrbc = RRBC("environment.yaml")

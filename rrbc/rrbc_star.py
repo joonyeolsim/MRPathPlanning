@@ -13,9 +13,9 @@ from rrt import RRT
 from state import State
 
 
-class SSSP:
-    def __init__(self):
-        self.env = Environment()
+class RRBC:
+    def __init__(self, environment_file):
+        self.env = Environment(environment_file)
         self.a_star = AStar()
 
         self.roadmaps = []
@@ -40,8 +40,8 @@ class SSSP:
     @staticmethod
     def line_segment_intersects(p1, p2, p3, p4):
         # 외적으로 방향을 구함.
-        ab = SSSP.ccw(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y) * SSSP.ccw(p1.x, p1.y, p2.x, p2.y, p4.x, p4.y)
-        cd = SSSP.ccw(p3.x, p3.y, p4.x, p4.y, p1.x, p1.y) * SSSP.ccw(p3.x, p3.y, p4.x, p4.y, p2.x, p2.y)
+        ab = RRBC.ccw(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y) * RRBC.ccw(p1.x, p1.y, p2.x, p2.y, p4.x, p4.y)
+        cd = RRBC.ccw(p3.x, p3.y, p4.x, p4.y, p1.x, p1.y) * RRBC.ccw(p3.x, p3.y, p4.x, p4.y, p2.x, p2.y)
 
         return ab < 0 and cd < 0
 
@@ -143,8 +143,8 @@ class SSSP:
 
     def search(self):
         # 랜덤으로 시작과 끝 지점들을 생성
-        start_positions = sssp.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
-        goal_positions = sssp.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
+        start_positions = self.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
+        goal_positions = self.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
 
         # 각 시작 지점과 끝 지점에 대해서 roadmap을 생성함.
         for start_position, goal_position in zip(start_positions, goal_positions):
@@ -410,10 +410,10 @@ class SSSP:
 
 
 if __name__ == '__main__':
-    sssp = SSSP()
+    rrbc = RRBC("environment.yaml")
     start_time = time.time()
 
-    last_state = sssp.search()
+    last_state = rrbc.search()
 
     end_time = time.time()
     if last_state:
@@ -421,9 +421,9 @@ if __name__ == '__main__':
         print(f"Cost: {last_state.passed_score}")
 
         # path 만들기
-        re_state_paths = sssp.reconstruct_paths(last_state)
+        re_state_paths = rrbc.reconstruct_paths(last_state)
 
         # 결과 그리기
-        sssp.draw_result(re_state_paths)
+        rrbc.draw_result(re_state_paths)
     else:
         print("Search Fail...")
