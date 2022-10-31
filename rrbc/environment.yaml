@@ -1,22 +1,23 @@
 # robot
+<<<<<<< Updated upstream
 robot_num: 5
 robot_radius: 1
+=======
+robot_num: 2
+robot_radius: 2
+>>>>>>> Stashed changes
 
 # map
 map_width: 30
-map_height: 30
+map_height: 20
 obstacle_list:
-  - !!python/tuple [15, 15, 1]
-  - !!python/tuple [13, 16, 2]
-  - !!python/tuple [13, 18, 2]
-  - !!python/tuple [13, 20, 2]
-  - !!python/tuple [17, 15, 2]
-  - !!python/tuple [19, 15, 2]
-  - !!python/tuple [5, 5, 2]
-  - !!python/tuple [5, 8, 1]
-  - !!python/tuple [5, 10, 1]
-  - !!python/tuple [8, 5, 1]
-  - !!python/tuple [10, 5, 1]
+  - !!python/tuple [20, 20, 5]
+  - !!python/tuple [15, 20, 5]
+  - !!python/tuple [10, 20, 5]
+  - !!python/tuple [20, 5, 5]
+  - !!python/tuple [15, 5, 5]
+  - !!python/tuple [10, 5, 5]
+
 
 # RRT
 rrt_rand_area: [0, 30]

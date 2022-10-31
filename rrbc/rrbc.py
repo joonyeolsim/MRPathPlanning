@@ -143,8 +143,15 @@ class RRBC:
 
     def search(self):
         # 랜덤으로 시작과 끝 지점들을 생성
+<<<<<<< Updated upstream
         start_positions = self.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
         goal_positions = self.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
+=======
+        # start_positions = sssp.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
+        # goal_positions = sssp.get_random_positions(self.env.robot_num, self.env.map_width, self.env.map_height)
+        start_positions = [(2.5, 5), (27.5, 5)]
+        goal_positions = [(27.5, 5), (2.5, 5)]
+>>>>>>> Stashed changes
 
         # 각 시작 지점과 끝 지점에 대해서 roadmap을 생성함.
         for start_position, goal_position in zip(start_positions, goal_positions):
